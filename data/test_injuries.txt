@@ -1,0 +1,2 @@
+100 LeftShoulder-LeftArm[5];
+500 LeftShoulder-LeftArm[10];LeftArm-LeftForeArm[5];
