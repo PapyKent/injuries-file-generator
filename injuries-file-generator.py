@@ -49,13 +49,13 @@ correspondance_table_pfnn["RightHand-RThumb"] = 29
 
 def create_matrix(frames_number, links_number):
     
-    matrix = numpy.zeros(shape=(frames_number,links_number))
-    
+    matrix = numpy.zeros(shape=(frames_number,links_number))   
     
     return matrix;
 
-
-
+def write_file(matrix):
+    
+    return;
 
 
 file_name = "test"
@@ -110,4 +110,4 @@ for line in lines:
 
 
 print(matrix)
-
+numpy.savetxt(file_path+file_name+"_injuries", matrix, fmt='%i')
