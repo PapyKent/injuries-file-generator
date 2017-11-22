@@ -5,31 +5,7 @@ Created on Tue Nov 21 12:17:12 2017
 @author: Quentin
 """
 import re
-
-
-file_name = "test"
-file_path= "./data/"
-
-file_object = open(file_path+file_name+"_injuries.txt", 'r')
-
-lines = file_object.readlines()
-regex = re.compile(r"[0-9]+ ([a-zA-Z]+-[a-zA-Z]+\[[0-9+]\];)*")
-
-for line in lines:
-    if regex.match(line) is not None:
-        print(line)
-        starting_frame = re.findall("([0-9]+) ", line)
-        ids = re.findall("([a-zA-Z]+-[a-zA-Z]+)", line)
-        values = re.findall("\[([0-9]+)\];", line)
-        starting_frame = int(starting_frame[0])
-        print(starting_frame)
-        for i in range(0, len(values)):
-            print(ids[i])
-            print(values[i])
-    else:
-        print("error")
-        
-        
+import numpy
 
 correspondance_table_pfnn = {}
 correspondance_table_pfnn["Hips-LHipJoint"] = 0
@@ -66,3 +42,72 @@ correspondance_table_pfnn["RightForeArm-RightHand"] = 26
 correspondance_table_pfnn["RightHand-RightFingerBase"] = 27
 correspondance_table_pfnn["RightFingerBase-RightHandIndex1"] = 28
 correspondance_table_pfnn["RightHand-RThumb"] = 29
+
+
+
+
+
+def create_matrix(frames_number, links_number):
+    
+    matrix = numpy.zeros(shape=(frames_number,links_number))
+    
+    
+    return matrix;
+
+
+
+
+
+file_name = "test"
+file_path= "./data/"
+
+file_object = open(file_path+file_name+"_injuries.txt", 'r')
+
+lines = file_object.readlines()
+regex = re.compile(r"([0-9]+)-([0-9]+) ([a-zA-Z]+-[a-zA-Z]+\[[0-9+]\];)*")
+
+
+frames_number = re.findall("frames:([0-9]+)", lines[0])
+if len(frames_number) is not 0:
+    frames_number = int(frames_number[0])
+    print("frames number :")
+    print(frames_number)
+else:
+    print("input file is missing frames number")
+     
+
+
+
+matrix = create_matrix(frames_number,len(correspondance_table_pfnn))
+
+   
+
+         
+for line in lines:
+    if regex.match(line) is not None:
+        print("line : \n"+line)
+        starting_frame = re.findall("([0-9]+)-", line)
+        ending_frame = re.findall("-([0-9]+)", line)
+        ids = re.findall("([a-zA-Z]+-[a-zA-Z]+)", line)
+        values = re.findall("\[([0-9]+)\];", line)
+        
+        starting_frame = int(starting_frame[0])
+        if starting_frame == 0 :
+            starting_frame = 1
+    
+        ending_frame = int(ending_frame[0])
+        if ending_frame == frames_number :
+            ending_frame = frames_number-1
+        print(starting_frame)
+        print(ending_frame)
+        for i in range(0, len(values)):
+            print(ids[i])
+            print(values[i])
+            matrix[starting_frame-1:ending_frame:, correspondance_table_pfnn[ids[i]]] = values[i]
+        
+        
+        
+
+
+print(matrix)
+
