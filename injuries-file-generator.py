@@ -57,11 +57,11 @@ def create_matrix(frames_number, links_number):
     return matrix;
 
 def write_file(matrix):
-    numpy.savetxt(file_path+file_name+"_injuries", matrix, fmt='%i')
+    numpy.savetxt(file_path+file_name, matrix, fmt='%i')
     return;
 
 
-file_object = open(file_path+file_name+"_injuries.txt", 'r')
+file_object = open(file_path+file_name+".txt", 'r')
 
 lines = file_object.readlines()
 regex = re.compile(r"([0-9]+)-([0-9]+) ([a-zA-Z]+-[a-zA-Z]+\[[0-9+]\];)*")
